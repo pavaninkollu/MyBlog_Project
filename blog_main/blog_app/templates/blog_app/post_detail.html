@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ post.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 0;
+            margin: 0;
+        }
+
+        .post-detail {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+        }
+
+        .post-title {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .post-author {
+            color: #888;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+
+        .post-image {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .post-content {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        /* Centering the entire comment section */
+        .comment-section-wrapper {
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .comment-section {
+            margin-top: 40px;
+        }
+
+        .comment {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .comment-author {
+            font-weight: bold;
+        }
+
+        .comment-date {
+            color: #777;
+            font-size: 0.8em;
+        }
+
+        /* Styling for comment form */
+        .comment-form-box {
+            margin-top: 30px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+            max-width: 800px;
+            margin: 30px auto;
+        }
+
+        .comment-form-box h3 {
+            margin-bottom: 20px;
+        }
+
+        .comment-form-box form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comment-form-box form input,
+        .comment-form-box form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .comment-form-box form button {
+            width: 150px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .comment-form-box form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- Blog post content -->
+    <div class="post-detail">
+        <h1 class="post-title">{{ post.title|title }}</h1>
+        <p class="post-author">by {{ post.author }} on {{ post.created_at|date:"F j, Y" }}</p>
+        {% if post.image %}
+            <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+        {% endif %}
+        
+        <!-- Post content with rich text (render HTML safely) -->
+        <div class="post-content">
+            {{ post.content|safe }} <!-- Ensures rich HTML content is rendered -->
+        </div>
+    </div>
+
+    <!-- Comment section and form -->
+    <div class="comment-section-wrapper">
+        <!-- Display comments -->
+        <div class="comment-section">
+            <h2>Comments</h2>
+            {% for comment in comments %}
+                <div class="comment">
+                    <p class="comment-author">{{ comment.author }}</p>
+                    <p>{{ comment.text }}</p>
+                    <p class="comment-date">{{ comment.created_at|date:"F j, Y, g:i a" }}</p>
+                </div>
+            {% empty %}
+                <p>No comments yet. Be the first to comment!</p>
+            {% endfor %}
+        </div>
+
+        <!-- Comment form for submitting new comments -->
+        <div class="comment-form-box">
+            <h3>Leave a Comment</h3>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit Comment</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

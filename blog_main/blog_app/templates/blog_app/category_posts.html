@@ -1,0 +1,11 @@
+<h1>Posts in {{ category.name }}</h1>
+
+<div class="posts">
+    {% for post in posts %}
+        <div class="post">
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content|truncatewords:30 }}</p>
+            <a href="{% url 'post_detail' post.slug %}">Read More</a>
+        </div>
+    {% endfor %}
+</div>

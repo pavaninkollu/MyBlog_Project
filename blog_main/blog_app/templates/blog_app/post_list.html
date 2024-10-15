@@ -1,0 +1,153 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Reader</title>
+    <style>
+        /* Layout for the page with sidebar */
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        /* Styling for the blog posts section */
+        .post-list {
+            flex: 3;  /* Take 3/4 of the available space */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .post-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-image {
+            max-width: 300px;
+            height: auto;
+            border-radius: 7px;
+        }
+
+        .post-content {
+            flex-grow: 1;
+        }
+
+        .post-title {
+            color: #1695ed;
+            font-size: 1.8em;
+            margin: 1px;
+        }
+
+        .post-author {
+            color: #707070;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+
+        .post-brief {
+            color: #555;
+        }
+
+        /* Styling for the sidebar (categories) */
+        .sidebar {
+            flex: 1;  /* Take 1/4 of the available space */
+            margin-left: 143px;
+        }
+
+        .sidebar h2 {
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .category-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .category-item {
+            margin: 10px 0;
+        }
+
+        .category-item a {
+            text-decoration: none;
+            color: #1695ed;
+        }
+
+        .category-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* Make sidebar sticky */
+        .sidebar {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 30px;  /* Adjust based on your layout */
+        }
+
+        body h1 span {
+            color: #555;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>Blog <span>Reader</span></h1>
+
+    <!-- Main content layout: posts + sidebar -->
+    <div class="main-content">
+
+        <!-- Blog posts section -->
+        <div class="post-list">
+            <!-- Loop through categories and display posts under each category -->
+            {% for category, posts in posts_by_category.items %}
+                <div class="category-section">
+                    <h2 class="category-title">{{ category.name }}</h2>
+
+                    <!-- Loop through posts in each category -->
+                    {% for post in posts %}
+                        <div class="post-item">
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="post-image">
+                            {% else %}
+                                <img src="https://via.placeholder.com/150" alt="No Image" class="post-image">
+                            {% endif %}
+                            
+                            <div class="post-content">
+                                <h2 class="post-title">{{ post.title|title }}</h2>
+                                <p class="post-author">by {{ post.author }} on {{ post.created_at|date:"F j, Y" }}</p>
+                                <p class="post-brief">{{ post.content|truncatewords:30|striptags }}</p>
+                                <a href="{{ post.id }}/" class="read-more">Read More</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Sidebar section: categories list -->
+        <div class="sidebar">
+            <h2>Categories</h2>
+            <ul class="category-list">
+                <!-- Display category names as links -->
+                {% for category in all_categories %}
+                    <li class="category-item">
+                        <a href="?category={{ category.id }}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+</body>
+</html>
