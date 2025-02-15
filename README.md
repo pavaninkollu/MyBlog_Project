@@ -1,4 +1,3 @@
-![Blog-Reader](https://github.com/user-attachments/assets/3f559b19-a579-42d3-895a-84c687559090)# MyBlog_Project
 
 # My Blog Project
 
