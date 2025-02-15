@@ -1,4 +1,4 @@
-# MyBlog_Project
+![Blog-Reader](https://github.com/user-attachments/assets/3f559b19-a579-42d3-895a-84c687559090)# MyBlog_Project
 
 # My Blog Project
 
@@ -55,6 +55,8 @@ This is a blog project built using **Django**. It allows users to read posts, fi
 ## Screenshots
 
 ### Blog Page
+
+![Blog-Reader](https://github.com/user-attachments/assets/14362a07-71db-405e-a4fd-1775f2ea3b66)
 ![Blog Screenshot]()![The-Future-Of-Artificial-Intelligence](https://github.com/user-attachments/assets/c2abb88b-6a12-4e75-90da-4bda103c8e05)
 
 
